@@ -2,129 +2,212 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MyTube Pro | Mobile Edition</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta name="google-site-verification" content="googlea4a7d6b932fc49b9" />
+
+    <title>Mohamed Benaissa | محمد بن عيسى - الموقع الرسمي</title>
+    <meta name="description" content="الموقع الرسمي لمحمد بن عيسى (Mohamed Benaissa). مساحة شخصية آمنة لحفظ الملاحظات وإدارة المحتوى الشخصي.">
+    <meta name="keywords" content="Mohamed Benaissa, محمد بن عيسى, mohamedbenaissa, موقع محمد بن عيسى">
+    <meta name="author" content="Mohamed Benaissa">
+    <meta name="robots" content="index, follow">
     
     <style>
-        body { background-color: #0f0f0f; color: white; font-family: system-ui, -apple-system, sans-serif; }
-        
-        /* مصلح مشغل الفيديو للهواتف - الحل الذهبي */
-        .video-wrapper {
-            position: relative;
-            width: 100%;
-            padding-bottom: 56.25%; /* نسبة 16:9 */
-            height: 0;
-            overflow: hidden;
-            border-radius: 20px;
-            background: #000;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        .video-wrapper iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
+        :root {
+            --primary-gradient: linear-gradient(-45deg, #23a6d5, #23d5ab, #e73c7e, #ee7752);
         }
 
-        .glass-nav { background: rgba(15, 15, 15, 0.9); backdrop-filter: blur(15px); border-bottom: 1px solid #272727; }
-        .comment-box { background: #1a1a1a; border-radius: 15px; border: 1px solid #333; padding: 12px; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: var(--primary-gradient);
+            background-size: 400% 400%;
+            animation: gradientMove 15s ease infinite;
+            overflow-x: hidden;
+            transition: background 1s ease;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* حاوية الاسم الكبيرة */
+        #main-container {
+            text-align: center; background: rgba(255, 255, 255, 0.1);
+            padding: 60px 80px; border-radius: 30px;
+            backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer; transition: 0.3s;
+        }
+        #main-container:hover { transform: scale(1.02); }
+
+        h1 { color: white; font-size: 3.5rem; letter-spacing: 5px; text-transform: uppercase; }
+
+        /* واجهة الدخول */
+        #auth-page { display: none; width: 100%; max-width: 400px; animation: fadeIn 0.6s ease; }
+        .auth-card { background: white; padding: 40px; border-radius: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); text-align: center; }
+        .btn { display: block; width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .btn-primary { background: #23a6d5; color: white; }
+        .btn-secondary { background: #f0f2f5; color: #333; }
+
+        /* الواجهة الرئيسية والملاحظات */
+        #content-dashboard { display: none; position: absolute; top: 0; width: 100%; height: 100vh; padding-top: 80px; text-align: center; overflow-y: auto; }
+        #notes-display { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; padding: 20px 10%; text-align: right; }
+        .note-card { background: #fff9c4; padding: 15px; border-radius: 10px; box-shadow: 3px 3px 10px rgba(0,0,0,0.1); position: relative; animation: fadeIn 0.4s ease; }
+        .delete-note { position: absolute; top: 5px; left: 5px; cursor: pointer; color: red; font-weight: bold; font-size: 0.8rem; }
+
+        /* البروفايل العلوي */
+        #user-profile { display: none; position: fixed; top: 15px; left: 15px; z-index: 1000; }
+        .profile-icon { width: 45px; height: 45px; background: #23a6d5; color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; border: 2px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .profile-dropdown { display: none; position: absolute; top: 55px; left: 0; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); min-width: 180px; text-align: right; }
+
+        /* المحرر */
+        #note-editor { display: none; position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); width: 90%; max-width: 400px; z-index: 101; }
+        textarea { width: 100%; height: 100px; border: 1px solid #ddd; border-radius: 10px; padding: 10px; resize: none; margin-bottom: 10px; font-family: inherit; outline: none; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body>
+<body onload="checkLogin()">
 
-    <header class="glass-nav sticky top-0 z-50 p-4 flex justify-between items-center">
-        <div class="flex items-center gap-2 cursor-pointer" onclick="location.reload()">
-            <i class="fab fa-youtube text-red-600 text-3xl"></i>
-            <span class="font-black text-xl tracking-tighter italic">MY<span class="text-red-600">TUBE</span></span>
-        </div>
-        <button onclick="openModal()" class="bg-red-600 w-10 h-10 rounded-full flex items-center justify-center shadow-lg shadow-red-900/40">
-            <i class="fas fa-plus text-sm"></i>
-        </button>
-    </header>
+    <div id="main-container" onclick="showAuth()">
+        <h1>Mohamed Benaissa</h1>
+    </div>
 
-    <main class="max-w-2xl mx-auto p-4 space-y-12 pb-24">
-        <div id="video-feed" class="space-y-12">
+    <div id="auth-page">
+        <div class="auth-card">
+            <div id="initial-options">
+                <h2 style="margin-bottom:20px;">مرحباً</h2>
+                <button class="btn btn-primary" onclick="showSignup()">إنشاء حساب</button>
             </div>
-    </main>
-
-    <div id="add-modal" class="fixed inset-0 bg-black/95 hidden z-[100] items-center justify-center p-6">
-        <div class="bg-[#1a1a1a] w-full max-w-sm p-8 rounded-[2.5rem] border border-gray-800 shadow-2xl">
-            <h2 class="text-xl font-bold mb-6 text-center">نشر محتوى جديد</h2>
-            <input id="v-title" type="text" placeholder="عنوان الفيديو..." class="w-full bg-black border border-gray-800 p-4 rounded-2xl mb-4 outline-none focus:border-red-600 transition text-sm">
-            <input id="v-url" type="text" placeholder="رابط يوتيوب (نسخ)" class="w-full bg-black border border-gray-800 p-4 rounded-2xl mb-6 outline-none focus:border-red-600 transition text-sm">
-            <div class="flex gap-3">
-                <button onclick="addVideo()" class="flex-1 bg-red-600 py-4 rounded-2xl font-bold">نشر الآن</button>
-                <button onclick="closeModal()" class="flex-1 bg-gray-800 py-4 rounded-2xl font-bold text-gray-400">إلغاء</button>
+            <div id="signup-form" style="display:none;">
+                <input type="text" id="nameInput" placeholder="الاسم" style="width:100%; padding:12px; margin-bottom:10px; border-radius:10px; border:1px solid #ddd; outline:none;">
+                <input type="date" id="dateInput" style="width:100%; padding:12px; margin-bottom:10px; border-radius:10px; border:1px solid #ddd; outline:none;">
+                <button class="btn btn-primary" onclick="saveAccount()">تأكيد وحفظ</button>
             </div>
         </div>
     </div>
 
+    <div id="user-profile">
+        <div class="profile-icon" onclick="toggleDropdown()">👤</div>
+        <div class="profile-dropdown" id="dropdown">
+            <p><strong>الاسم:</strong> <span id="dispName"></span></p>
+            <p><strong>الميلاد:</strong> <span id="dispDate"></span></p>
+            <hr style="margin:10px 0; border-top:1px solid #eee;">
+            <p style="color:red; cursor:pointer;" onclick="logout()">مسح الحساب والخروج</p>
+        </div>
+    </div>
+
+    <div id="content-dashboard">
+        <h2 style="color:#333; margin-bottom:20px;">مساحتك الشخصية</h2>
+        <div id="notes-display"></div>
+    </div>
+
+    <button id="note-toggle-btn" style="display:none; position:fixed; bottom:30px; left:50%; transform:translateX(-50%); background:#23a6d5; color:white; padding:15px 30px; border-radius:50px; border:none; cursor:pointer; font-weight:bold; box-shadow: 0 4px 15px rgba(0,0,0,0.2);" onclick="toggleNoteEditor()">📝 أضف ملاحظة</button>
+    
+    <div id="note-editor">
+        <textarea id="noteText" placeholder="اكتب ملاحظتك هنا..."></textarea>
+        <button class="btn btn-primary" onclick="saveNote()">حفظ الملاحظة</button>
+        <button class="btn btn-secondary" onclick="toggleNoteEditor()">إلغاء</button>
+    </div>
+
     <script>
-        let db = JSON.parse(localStorage.getItem('gh_mobile_vids')) || [];
-
-        function openModal() { document.getElementById('add-modal').classList.replace('hidden', 'flex'); }
-        function closeModal() { document.getElementById('add-modal').classList.replace('flex', 'hidden'); }
-
-        // دالة ذكية لاستخراج ID الفيديو بشكل صحيح للهواتف
-        function extractID(url) {
-            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-            const match = url.match(regExp);
-            return (match && match[2].length === 11) ? match[2] : null;
-        }
-
-        function addVideo() {
-            const title = document.getElementById('v-title').value;
-            const id = extractID(document.getElementById('v-url').value);
-
-            if (!title || !id) return alert("الرجاء التأكد من الرابط!");
-
-            db.unshift({ id: Date.now(), title, videoId: id });
-            localStorage.setItem('gh_mobile_vids', JSON.stringify(db));
-            render();
-            closeModal();
-            document.getElementById('v-title').value = '';
-            document.getElementById('v-url').value = '';
-        }
-
-        function render() {
-            const feed = document.getElementById('video-feed');
-            if (db.length === 0) {
-                feed.innerHTML = '<div class="text-center py-20 opacity-20"><p>أضف أول فيديو لمشاهدته هنا</p></div>';
-                return;
+        function checkLogin() {
+            const savedName = localStorage.getItem('userName');
+            const savedDate = localStorage.getItem('userDate');
+            if (savedName && savedDate) {
+                enterDashboard(savedName, savedDate);
+            } else {
+                document.getElementById('main-container').style.display = 'block';
             }
-
-            feed.innerHTML = db.map(v => `
-                <div class="video-item animate-in fade-in duration-700">
-                    <div class="video-wrapper">
-                        <iframe 
-                            src="https://www.youtube.com/embed/${v.videoId}?modestbranding=1&rel=0&playsinline=1&enablejsapi=1&origin=${window.location.origin}" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                            allowfullscreen>
-                        </iframe>
-                    </div>
-                    <div class="mt-4 flex justify-between items-start px-2">
-                        <h2 class="text-lg font-bold flex-1 leading-tight">${v.title}</h2>
-                        <button onclick="deleteVid(${v.id})" class="text-gray-700 p-2"><i class="fas fa-trash-alt text-xs"></i></button>
-                    </div>
-                </div>
-            `).join('');
+            loadNotes();
         }
 
-        function deleteVid(id) {
-            if(confirm('حذف الفيديو؟')) {
-                db = db.filter(v => v.id !== id);
-                localStorage.setItem('gh_mobile_vids', JSON.stringify(db));
-                render();
+        function showAuth() {
+            document.getElementById('main-container').style.display = 'none';
+            document.getElementById('auth-page').style.display = 'block';
+        }
+
+        function showSignup() {
+            document.getElementById('initial-options').style.display = 'none';
+            document.getElementById('signup-form').style.display = 'block';
+        }
+
+        function saveAccount() {
+            const name = document.getElementById('nameInput').value;
+            const date = document.getElementById('dateInput').value;
+            if (name && date) {
+                localStorage.setItem('userName', name);
+                localStorage.setItem('userDate', date);
+                enterDashboard(name, date);
+            } else { alert("يرجى إكمال البيانات"); }
+        }
+
+        function enterDashboard(name, date) {
+            document.getElementById('main-container').style.display = 'none';
+            document.getElementById('auth-page').style.display = 'none';
+            document.getElementById('dispName').innerText = name;
+            document.getElementById('dispDate').innerText = date;
+            
+            document.body.style.background = "#fcfcfc";
+            document.body.style.animation = "none";
+            document.getElementById('user-profile').style.display = 'block';
+            document.getElementById('content-dashboard').style.display = 'block';
+            document.getElementById('note-toggle-btn').style.display = 'block';
+        }
+
+        function toggleDropdown() {
+            const dd = document.getElementById('dropdown');
+            dd.style.display = (dd.style.display === 'block') ? 'none' : 'block';
+        }
+
+        function toggleNoteEditor() {
+            const editor = document.getElementById('note-editor');
+            editor.style.display = (editor.style.display === 'block') ? 'none' : 'block';
+        }
+
+        function saveNote() {
+            const text = document.getElementById('noteText').value;
+            if (!text) return;
+            let notes = JSON.parse(localStorage.getItem('myNotes') || "[]");
+            notes.push(text);
+            localStorage.setItem('myNotes', JSON.stringify(notes));
+            document.getElementById('noteText').value = "";
+            toggleNoteEditor();
+            loadNotes();
+        }
+
+        function loadNotes() {
+            const display = document.getElementById('notes-display');
+            display.innerHTML = "";
+            let notes = JSON.parse(localStorage.getItem('myNotes') || "[]");
+            notes.forEach((note, index) => {
+                const card = document.createElement('div');
+                card.className = 'note-card';
+                card.innerHTML = `<span class="delete-note" onclick="deleteNote(${index})">حذف</span><p>${note}</p>`;
+                display.prepend(card);
+            });
+        }
+
+        function deleteNote(index) {
+            let notes = JSON.parse(localStorage.getItem('myNotes') || "[]");
+            notes.splice(index, 1);
+            localStorage.setItem('myNotes', JSON.stringify(notes));
+            loadNotes();
+        }
+
+        function logout() {
+            if(confirm("هل تريد حقاً مسح بياناتك والخروج؟")) {
+                localStorage.clear();
+                location.reload();
             }
         }
-
-        render();
     </script>
 </body>
 </html>
